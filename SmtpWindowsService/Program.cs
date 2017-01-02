@@ -20,6 +20,7 @@ namespace SmtpWindowsService
                 new SmtpService()
             };
             ServiceBase.Run(ServicesToRun);
+
         }
     }
 }
