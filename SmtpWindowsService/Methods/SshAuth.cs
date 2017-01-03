@@ -22,7 +22,7 @@ namespace SmtpWindowsService.Methods
         IEmailService _emailService = new EmailService();
         public override void AuthAndStart(string hostnameOrIp, string username, string password, ScanIp item)
         {
-            //SmtpScanCommands(hostnameOrIp, username, password, item);
+            SmtpScanCommands(hostnameOrIp, username, password, item);
         }
 
         private void SmtpScanCommands(string hostnameOrIp, string username, string password, ScanIp item)
@@ -30,31 +30,36 @@ namespace SmtpWindowsService.Methods
             string command1 = "cd" + " " + ConfigurationManager.AppSettings["remoteSmtpDirectory"];
             string command2 = string.Format("nohup ./start {0}.{1} >> /dev/null &", item.AIp, item.BIp);
             string command3 = "history -c";
-            SshClient sshclient = new SshClient(hostnameOrIp, username, password);
-            sshclient.Connect();
+            ShellStream shell;
+            StreamWriter writer;
+            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer);
 
-
-
-            var shell = sshclient.CreateShellStream("cmd.exe", 80, 24, 800, 600, 1024);
-            var writer = new StreamWriter(shell);
-            writer.AutoFlush = true;
-
-            while (!shell.DataAvailable)
-                Thread.Sleep(1000); //This wait period seems required
-            writer.WriteLine(command1);
-            while (!shell.DataAvailable)
-                Thread.Sleep(1000); //This wait period seems required
-            writer.WriteLine(command2);
-            while (!shell.DataAvailable)
-                Thread.Sleep(1000); //This wait period seems required
-            writer.WriteLine(command3);
-            while (!shell.DataAvailable)
-                Thread.Sleep(1000); //This wait period seems required
-
-
+            ExecuteCommand(shell, command1, writer);
+            ExecuteCommand(shell, command2, writer);
+            ExecuteCommand(shell, command3, writer);
             sshclient.Disconnect();
         }
 
+        private static SshClient SshClientConnect(string hostnameOrIp, string username, string password, out ShellStream shell,
+            out StreamWriter writer)
+        {
+            SshClient sshclient = new SshClient(hostnameOrIp, username, password);
+            sshclient.Connect();
+
+            shell = sshclient.CreateShellStream("cmd.exe", 80, 24, 800, 600, 1024);
+            writer = new StreamWriter(shell);
+            writer.AutoFlush = true;
+            while (!shell.DataAvailable)
+                Thread.Sleep(1000); //This wait period seems required
+            return sshclient;
+        }
+
+        public void ExecuteCommand(ShellStream shell,string command,StreamWriter writer)
+        {
+            writer.WriteLine(command);
+            while (!shell.DataAvailable)
+                Thread.Sleep(1000); //This wait period seems required
+        }
         public override void GetResults(string hostnameOrIp, string username, string password)
         {
             string reader = "";
@@ -80,6 +85,15 @@ namespace SmtpWindowsService.Methods
             }
             var res = File.ReadAllLines(tempLocalFile);
             File.AppendAllLines(localFile, res);
+
+            var command3 = string.Format("mv {2}/vuln.txt" + " " + "/tmp/.ssh/Smtp/{0}-{1}.txt",DateTime.Now.ToString("dd.MM.yyyy"),DateTime.Now.ToString("HH:mm"),command1);
+            var command2 = string.Format("echo '{0}-{1}' >{2}/vuln.txt", DateTime.Now.ToString("dd.MM.yyyy"), DateTime.Now.ToString("HH:mm"),command1);
+            ShellStream shell;
+            StreamWriter writer;
+            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer);
+            ExecuteCommand(shell, command3, writer);
+            ExecuteCommand(shell, command2, writer);
+            sshclient.Disconnect();
         }
 
     }
