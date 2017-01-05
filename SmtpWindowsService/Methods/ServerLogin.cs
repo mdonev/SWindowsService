@@ -2,11 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using Renci.SshNet;
 using System.IO;
 using SmtpWindowsService.Models;
 using System.Configuration;
@@ -19,7 +14,8 @@ namespace SmtpWindowsService.Methods
         IEmailService _emailService = new EmailService();
         public void ScanForSmtp()
         {
-            var listOfServers = GetHostFromTxt();
+            string path = ConfigurationManager.AppSettings["Servers"];
+            var listOfServers = GetHostFromTxt(path);
             foreach (var server in listOfServers)
             {
                 var hostnameOrIp = server.IP;
@@ -36,12 +32,15 @@ namespace SmtpWindowsService.Methods
                 }
             }
             _emailService.SendSmtpResults();
+            var localFile = ConfigurationManager.AppSettings["vulnLocal"];
+            string[] aa = DateTime.Now.ToString("HH:mm").Split(' ');
+            File.WriteAllLines(localFile, aa);
+
         }
 
-        public List<Login> GetHostFromTxt()
+        public List<Login> GetHostFromTxt(string path)
         {
             List<Login> logins = new List<Login>();
-            string path = ConfigurationManager.AppSettings["Servers"];
             string[] data = File.ReadAllLines(path);
             foreach (var item in data)
             {

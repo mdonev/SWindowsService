@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using SmtpWindowsService.Interfaces;
 using SmtpWindowsService.Methods;
@@ -19,6 +13,7 @@ namespace SmtpWindowsService
         //public SmtpService(ServerLogin serverLogin) { _serverLogin = serverLogin; }
 
         IServerLogin _serverLogin = new ServerLogin();
+        IMining _mining = new Mining();
 
         public SmtpService()
         {
@@ -53,7 +48,8 @@ namespace SmtpWindowsService
 
         public void SetUpTimer()
         {
-            var timer = new System.Timers.Timer {Interval = 60000};
+            var miliseconds = ConfigurationManager.AppSettings["TimerInterval"];
+            var timer = new System.Timers.Timer {Interval = int.Parse(miliseconds) };
             // 60 seconds
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
@@ -61,7 +57,12 @@ namespace SmtpWindowsService
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
+            var minerCheck = ConfigurationManager.AppSettings["MinerAppEnabled"];
             _serverLogin.ScanForSmtp();
+
+            if(minerCheck == "true")
+                _mining.CheckMiners();
+
             eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information);
         }
         public enum ServiceState

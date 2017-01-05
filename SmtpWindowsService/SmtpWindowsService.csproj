@@ -56,9 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IEmailService.cs" />
+    <Compile Include="Interfaces\IMining.cs" />
     <Compile Include="Interfaces\IServerLogin.cs" />
     <Compile Include="Interfaces\ISshAuth.cs" />
     <Compile Include="Methods\EmailService.cs" />
+    <Compile Include="Methods\Mining.cs" />
     <Compile Include="Methods\ServerLogin.cs" />
     <Compile Include="Methods\SshAuth.cs" />
     <Compile Include="Models\Login.cs" />
@@ -81,7 +83,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Documents\miners.txt" />
     <Content Include="Documents\TempFile.txt" />
     <Content Include="Documents\vuln.txt" />
     <Content Include="NLog.config">
