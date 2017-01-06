@@ -71,11 +71,13 @@ namespace SmtpWindowsService.Methods
                 scan.AIp = int.Parse(words[0]);
                 scan.BIp = int.Parse(words[1]) + i;
                 scan.LineCount = int.Parse(line);
+                var ipLinesLength = File.ReadAllLines(path).Length;
                 if (scan.BIp > 255)
                 {
                     scan.LineCount += 1;
-                    if (File.ReadAllLines(path).Count() < scan.LineCount)
+                    if (ipLinesLength <= scan.LineCount)
                     {
+                        scan.LineCount = 0;
                         var data1 = SaveLineText(path, scan, lineFilePath);
                         string[] words1 = data1.Split(' ');
                         scan.AIp = int.Parse(words1[0]);
@@ -83,7 +85,6 @@ namespace SmtpWindowsService.Methods
                     }
                     else
                     {
-                        scan.LineCount = 0;
                         var data2 = SaveLineText(path, scan, lineFilePath);
                         string[] words2 = data2.Split(' ');
                         scan.AIp = int.Parse(words2[0]);

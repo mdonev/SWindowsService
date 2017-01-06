@@ -1,8 +1,1 @@
-﻿200.1.202.29 informes informes
-177.159.155.217 teste hesoyam1
-177.86.38.10 kaker hesoyam1
-187.185.15.134 kaker hesoyam1
-190.1.137.154 jmeza hesoyam1
-188.64.240.140 rm hesoyam1
-200.71.89.21 simon hesoyam1
-200.2.116.75 mmunoz mmunoz
+﻿
