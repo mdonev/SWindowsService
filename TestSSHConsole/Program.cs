@@ -66,7 +66,9 @@ namespace TestSSHConsole
                 if (sshclient.IsConnected)
                 {
                     var command1 = "cp /proc/cpuinfo /tmp/file.txt";
+                    var command2 = "uname -m > /tmp/a.txt";
                     ExecuteCommand(shell, command1, writer);
+                    ExecuteCommand(shell, command2, writer);
                 }
                 HandleFileOutputs(hostnameOrIp, username, password,lineCount);
             }
@@ -93,6 +95,7 @@ namespace TestSSHConsole
         {
             var remoteFile = "/usr/lib/php";
             var remoteCpuInfoFile = "/tmp/file.txt";
+            var remoteBitInfoFile = "/tmp/a.txt";
             using (var sftp = new SftpClient(hostnameOrIp, 22, username, password))
             {
                 sftp.Connect();
@@ -100,7 +103,14 @@ namespace TestSSHConsole
                 {
                     bool isPHP;
                     var tempPath = ConfigurationManager.AppSettings["TempCpuInfo"];
-                    if (sftp.Exists(remoteFile))
+                    var tempUnameInfo = ConfigurationManager.AppSettings["TempUnameInfo"];
+                    using (var file = File.OpenWrite(tempUnameInfo))
+                    {
+                        sftp.DownloadFile(remoteBitInfoFile, file);
+                    }
+                    var input = "i686";
+                    var model = SearchLineContents(tempUnameInfo, input);
+                    if (model == "i686")
                     {
                         isPHP = true;
                         using (var file = File.OpenWrite(tempPath))
@@ -138,34 +148,36 @@ namespace TestSSHConsole
 
             string lineFilePath = ConfigurationManager.AppSettings["servers"];
             var lines = File.ReadAllLines(lineFilePath);
-            var cpuInfo = File.ReadAllLines(tempPath).Select(s => s.Contains("model name"));
-            var all = File.ReadAllLines(tempPath);
-            //all[4] = string.Format("{0}" + " " + "{1}" + " " + "{2}" + " " + "{3}", hostnameOrIp, username, password, cpuInfo);
 
-
-            FileStream inFile = new FileStream(tempPath, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(inFile);
-            string record;
             string input = "model name";
-            record = reader.ReadLine();
-            var cpuModel = String.Empty;
-            while (record != null)
-            {
-                if (record.Contains(input))
-                {
-                    Console.WriteLine(record);
-                    cpuModel = record;
-                }
-                record = reader.ReadLine();
-            }
+            var model = SearchLineContents(tempPath, input);
             if (lines.Count() > lineCount) { 
-                string[] aa = string.Format("{0}" + " " + "{1}" + " " + "{2}" + " " + "{3}", hostnameOrIp, username, password, cpuModel).Split(' ');
+                string[] aa = string.Format("{0}" + " " + "{1}" + " " + "{2}" + " " + "{3}", hostnameOrIp, username, password, model).Split(' ');
             File.AppendAllLines(path, aa);
             }
             else
             {
                 Console.WriteLine("Finished");
             }
+        }
+
+        private static string SearchLineContents(string tempPath, string input)
+        {
+            FileStream inFile = new FileStream(tempPath, FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(inFile);
+            string record;
+            record = reader.ReadLine();
+            var model = String.Empty;
+            while (record != null)
+            {
+                if (record.Contains(input))
+                {
+                    Console.WriteLine(record);
+                    model = record;
+                }
+                record = reader.ReadLine();
+            }
+            return model;
         }
     }
 }

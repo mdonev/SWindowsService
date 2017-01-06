@@ -57,10 +57,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documents\cpuinfo.txt" />
-    <Content Include="Documents\PHPServers.txt" />
+    <Content Include="Documents\64bit.txt" />
+    <Content Include="Documents\32bit.txt" />
     <Content Include="Documents\servers.txt" />
     <Content Include="Documents\TempCpuInfo.txt" />
+    <Content Include="Documents\TempUnameInfo.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
