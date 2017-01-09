@@ -1,1 +1,7 @@
-﻿
+﻿189.214.96.5 emartinez emartinez
+189.214.96.5 mmartinez mmartinez
+200.2.116.75 mmunoz mmunoz
+200.41.199.53 desarrollo desarrollo
+200.107.103.122 estudio estudio
+200.75.142.245 sistemas sistemas
+200.75.9.36 usuario usuario

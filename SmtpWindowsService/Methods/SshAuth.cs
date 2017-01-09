@@ -29,7 +29,7 @@ namespace SmtpWindowsService.Methods
             string command3 = "history -c";
             ShellStream shell;
             StreamWriter writer;
-            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer,appName);
+            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer, appName);
             if (sshclient.IsConnected)
             {
                 ExecuteCommand(shell, command1, writer);
@@ -40,7 +40,7 @@ namespace SmtpWindowsService.Methods
         }
 
         public override SshClient SshClientConnect(string hostnameOrIp, string username, string password, out ShellStream shell,
-            out StreamWriter writer,string appName)
+            out StreamWriter writer, string appName)
         {
             SshClient sshclient = new SshClient(hostnameOrIp, username, password);
             try
@@ -52,16 +52,15 @@ namespace SmtpWindowsService.Methods
                 while (!shell.DataAvailable)
                     Thread.Sleep(1000); //This wait period seems required
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                var messageError = string.Format("error connecting to host - {3} - {0} {1} {2}", hostnameOrIp, username,
-                    password, appName);
+                var messageError = string.Format("error connecting to host - {3} - {0} {1} {2} - {4}", hostnameOrIp, username,
+                    password, appName,exception.Message);
                 _emailService.LogNotConnected(messageError);
                 shell = null;
                 writer = null;
             }
             return sshclient;
-
         }
 
         public override void ExecuteCommand(ShellStream shell, string command, StreamWriter writer)
@@ -84,30 +83,32 @@ namespace SmtpWindowsService.Methods
                 using (var sftp = new SftpClient(hostnameOrIp, 22, username, password))
                 {
                     sftp.Connect();
-                    lock (locker)
+                    if (sftp.IsConnected)
                     {
-                        if (sftp.Exists(remoteFile))
+                        lock (locker)
                         {
-                            using (var file = File.OpenWrite(tempLocalFile))
+                            if (sftp.Exists(remoteFile))
                             {
-                                sftp.DownloadFile(remoteFile, file);
+                                using (var file = File.OpenWrite(tempLocalFile))
+                                {
+                                    sftp.DownloadFile(remoteFile, file);
+                                }
+                            }
+                            else
+                            {
+                                DownloadFolderToSsh(hostnameOrIp, username, password);
+                                var messageError = string.Format("Download File - {0} {1} {2}", hostnameOrIp, username, password);
+                                _emailService.LogNotConnected(messageError);
                             }
                         }
-                        else
-                        {
-                            DownloadFolderToSsh(hostnameOrIp, username, password);
-                            var messageError = string.Format("Download File - {0} {1} {2}", hostnameOrIp,username, password);
-                            _emailService.LogNotConnected(messageError);
-                        }
                     }
-
                     sftp.Disconnect();
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                var messageError = string.Format("error connecting to host to get results - {0} {1} {2}", hostnameOrIp,
-                    username, password);
+                var messageError = string.Format("error connecting to host to get results - {0} {1} {2} - {3}", hostnameOrIp,
+                    username, password,exception.Message);
                 _emailService.LogNotConnected(messageError);
             }
 
@@ -123,7 +124,7 @@ namespace SmtpWindowsService.Methods
             ShellStream shell;
             StreamWriter writer;
             var appName = "SMTP";
-            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer,appName);
+            var sshclient = SshClientConnect(hostnameOrIp, username, password, out shell, out writer, appName);
             if (sshclient.IsConnected)
             {
                 ExecuteCommand(shell, command3, writer);
