@@ -39,23 +39,13 @@ namespace SmtpWindowsService.Methods
         {
             var vulnFile = ConfigurationManager.AppSettings["vulnLocal"];
             var res = File.ReadAllLines(vulnFile);
-            var result = string.Empty;
-            foreach (var item in res)
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < res.Length; i++)
             {
-                var items = item.Split(' ');
-                if (item.Length == 3)
-                    result = string.Format("{0} {1} {2}", items[0], items[1], items[2]);
-                else if(item.Length == 2)
-                    result = string.Format("{0} {1}", items[0], items[1]);
-                else if (item.Length == 4)
-                    result = string.Format("{0} {1} {2} {3}", items[0], items[1], items[2], items[3]);
-                else if (item.Length == 5)
-                    result = string.Format("{0} {1} {2} {3} {4}", items[0], items[1], items[2], items[3], items[4]);
-                else 
-                    result = string.Format("{0}", items[0]);
-
+                builder.AppendLine(res[i]);
             }
-            var message = result;
+
+            var message = builder.ToString();
             var subject = "Results" + " - " + DateTime.Now;
             var from = ConfigurationManager.AppSettings["EmailFrom"];
             var to = ConfigurationManager.AppSettings["EmailTo"];

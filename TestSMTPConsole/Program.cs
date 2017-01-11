@@ -57,16 +57,15 @@ namespace TestSMTPConsole
 
         public static void SendEmail(List<SendEmail> logins)
         {
+            var testSubject = ConfigurationManager.AppSettings["TestSubject"];
+            var emails = ConfigurationManager.AppSettings["EmailList"];
+            var isHtml = ConfigurationManager.AppSettings["HTML Message"];
+            var senderAddress = ConfigurationManager.AppSettings["SenderAddress"];
+            var subject = ConfigurationManager.AppSettings["Subject"];
+            var messageBody = ConfigurationManager.AppSettings["MessageBody"];
             try
             {
-                var testSubject = ConfigurationManager.AppSettings["TestSubject"];
-                var emails = ConfigurationManager.AppSettings["EmailList"];
-                var isHtml = ConfigurationManager.AppSettings["HTML Message"];
-                var senderAddress = ConfigurationManager.AppSettings["SenderAddress"];
-                var subject = ConfigurationManager.AppSettings["Subject"];
 
-
-                var messageBody = ConfigurationManager.AppSettings["MessageBody"];
                 string[] message = File.ReadAllLines(messageBody);
                 var msg = new StringBuilder();
                 for (int index = 0; index < message.Length; index++)
@@ -98,20 +97,20 @@ namespace TestSMTPConsole
                         try
                         {
                             client.Send(mail1);
-                            Console.WriteLine("{0} Sent", a);
+                            Console.WriteLine("{0} Sent", a+1);
                         }
                         catch (Exception)
                         {
                             var ip = string.Format("{0} {1} {2}", client.Host, mail.Username, mail.Password);
-                            var email = string.Format("{0}", emailAddress[a].ToString());
+                            //var email = string.Format("{0}", emailAddress[a].ToString());
                             var login = ConfigurationManager.AppSettings["LoginServers"];
-                            var notSentEmails = ConfigurationManager.AppSettings["NotSent"];
+                            //var notSentEmails = ConfigurationManager.AppSettings["NotSent"];
                             var notConnectedSmtp = ConfigurationManager.AppSettings["NotSending"];
                             File.WriteAllLines(login, File.ReadLines(login).Where(l => l != ip).ToList());
                             var splitted = ip.Split(' ');
                             File.AppendAllLines(notConnectedSmtp, splitted);
-                            var emailSplitted = email.Split(' ');
-                            File.AppendAllLines(notSentEmails, emailSplitted);
+                            //var emailSplitted = email.Split(' ');
+                            //File.AppendAllLines(notSentEmails, emailSplitted);
                             Console.WriteLine("Not Connected {0} {1} {2}",client.Host, mail.Username, mail.Password);
                         }
                         //client.SendCompleted += SendCompletedCallback;
@@ -124,7 +123,17 @@ namespace TestSMTPConsole
             {
                 var messageError = string.Format("Error: Sending Email Failed - {0}", exception.Message);
             }
-            Console.WriteLine("some statistics");
+            var smtps = ConfigurationManager.AppSettings["LoginServers"];
+            var notSendingSmtps = ConfigurationManager.AppSettings["NotSending"];
+            var notsending = File.ReadAllLines(notSendingSmtps);
+            var goodSmtpServers = File.ReadAllLines(smtps);
+            var emailss = File.ReadAllLines(emails);
+            var emailsNotSent = ConfigurationManager.AppSettings["NotSent"];
+            var sent = emailss.Length;
+            var notSent = emailsNotSent.Length;
+            var goodSmtps = goodSmtpServers.Length;
+            var badSmtps = notsending.Length;
+            Console.WriteLine("Sent: {0} emails| Not Sent: {1} emails|Good Smtps:{2}|Not Sent Smtps:{3}", sent, notSent, goodSmtps, badSmtps);
             Console.ReadKey(true);
         }
     }
