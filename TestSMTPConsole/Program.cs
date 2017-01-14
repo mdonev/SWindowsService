@@ -10,6 +10,7 @@ using TestSMTPConsole.Models;
 using System.IO;
 using System.Net;
 using System.Net.Configuration;
+using System.Threading;
 using TestSMTPConsole.Helpers;
 
 namespace TestSMTPConsole
@@ -23,7 +24,6 @@ namespace TestSMTPConsole
 
             GetHostFromTxt(login);
 
-
         }
 
         public static List<SendEmail> GetHostFromTxt(string path)
@@ -32,22 +32,22 @@ namespace TestSMTPConsole
             string[] data = File.ReadAllLines(path);
 
 
-            foreach (var item in data)
+            for (int index = 0; index < data.Length; index++)
             {
-                if (data.Length < item.Count())
+                string item = data[index];
+                if (data.Length >= index)
                 {
                     SendEmail login = new SendEmail();
                     string[] words = item.Split(' ');
                     login.SmtpHostname = words[0];
                     login.Username = words[1];
                     login.Password = words[2];
-                    //login.Subject = string.Format("{0} {1} {2}", login.SmtpHostname, login.Username, login.Password);
                     login.SmtpPort = 25;
                     logins.Add(login);
                 }
                 else
                 {
-                    Console.WriteLine("Finished");
+                    Console.WriteLine("Check the text files");
                     Console.ReadKey(true);
                 }
             }
@@ -75,7 +75,7 @@ namespace TestSMTPConsole
                 string[] emailAddress = File.ReadAllLines(emails);
                 bool isHtmlMsg = isHtml == "true";
 
-                Parallel.ForEach(logins, mail =>
+                Parallel.ForEach(logins, async mail =>
                 {
                     SmtpClient client = new SmtpClient
                     {
@@ -94,24 +94,31 @@ namespace TestSMTPConsole
                         mail1.Subject = subject;
                         mail1.Body = msg.ToString();
                         mail1.IsBodyHtml = isHtmlMsg;
+                        //if (a > 2)
+                        //{
+                        //    mail1.Bcc.Add(emailAddress[a - 1]);
+                        //    mail1.CC.Add(emailAddress[a - 2]);
+                        //}
                         try
                         {
-                            client.Send(mail1);
-                            Console.WriteLine("{0} Sent", a+1);
+                            await client.SendMailAsync(mail1);
+                            //client.Send(mail1);
+                            Console.WriteLine("{0} Sent", a + 1);
                         }
                         catch (Exception)
                         {
-                            var ip = string.Format("{0} {1} {2}", client.Host, mail.Username, mail.Password);
+                            //var ip = string.Format("{0} {1} {2}", client.Host, mail.Username, mail.Password);
                             //var email = string.Format("{0}", emailAddress[a].ToString());
-                            var login = ConfigurationManager.AppSettings["LoginServers"];
+                            //var login = ConfigurationManager.AppSettings["LoginServers"];
                             //var notSentEmails = ConfigurationManager.AppSettings["NotSent"];
-                            var notConnectedSmtp = ConfigurationManager.AppSettings["NotSending"];
-                            File.WriteAllLines(login, File.ReadLines(login).Where(l => l != ip).ToList());
-                            var splitted = ip.Split(' ');
-                            File.AppendAllLines(notConnectedSmtp, splitted);
+                            //var notConnectedSmtp = ConfigurationManager.AppSettings["NotSending"];
+                            //Thread.Sleep(1000);
+                            //File.WriteAllLines(login, File.ReadLines(login).Where(l => l != ip).ToList());
+                            //var splitted = ip.Split(' ');
+                            //File.AppendAllLines(notConnectedSmtp, splitted);
                             //var emailSplitted = email.Split(' ');
                             //File.AppendAllLines(notSentEmails, emailSplitted);
-                            Console.WriteLine("Not Connected {0} {1} {2}",client.Host, mail.Username, mail.Password);
+                            Console.WriteLine("Not Connected {0} {1} {2}", client.Host, mail.Username, mail.Password);
                         }
                         //client.SendCompleted += SendCompletedCallback;
                     }
